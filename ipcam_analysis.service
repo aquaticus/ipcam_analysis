@@ -1,0 +1,11 @@
+[Unit]
+Description=IP Camera Analysis Server
+
+[Service]
+Type=simple
+ExecStart=/srv/ipcam_analysis/ipcam_analysis.py
+WorkingDirectory=/srv/ipcam_analysis
+Environment="AWS_SHARED_CREDENTIALS_FILE=<path>/.aws/credentials"
+
+[Install]
+WantedBy=multi-user.target

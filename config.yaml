@@ -1,0 +1,61 @@
+# Mode of operation
+# true - send an email if detected label is not in base list in 'labels:'
+# false - alarm mode, send an email if na label is on 'labels' list
+new_labels_only: false
+
+# List of labels. Meaning depends on 'new_labels_only'
+labels:
+  - Person
+  - Animal
+  - Vehicle
+
+# Active time window (for 24h use 0:00 and 23:59)
+time_window:
+  start: '5:00'
+  end: '18:00'
+
+# log configuration file
+log_configuration_file: log_config.yaml
+
+# Region for Amazon SES and Rekognition
+aws_region: eu-west-1
+
+# FTP server configuration
+ftp_server:
+  # FTP root directory; created if not exist
+  root_dir: /tmp
+  # FTP ports
+  port: 2121
+  # If true remove files after analysis
+  remove_files: true
+  # List of users. Use one user per camera.
+  users: # [CHANGE]
+    cam01: 4kyCBXcbrVmLqmD5
+    cam02: T6Qh5sfCXejCD4Zt
+
+# Email configuration
+email:
+  # Sender email [CHANGE]
+  sender_email: sender@example.com
+  # Sender name
+  sender_name: "Ipcam Analysis"
+  # Message body HTML format
+  # Special tokens:
+  # - $camera - camera name (FTP user name)
+  # - $list - list of detected labels
+  # - $image - attached image
+  message_html: "<p>List of objects:</p>$list<p>$image</p>"
+  # Message subject
+  subject: "⚡ $camera: detected new objects"
+  # list of email addresses
+  recipients: # [CHANGE]
+    - your_email@example.com
+
+# Image recognition service parameters
+rekognition:
+  # maximum labels returned
+  max_labels: 10
+  # minimum confidence in percents
+  min_confidence_percent: 85
+  # scale factor in percent (use <= 100%)
+  image_resize_percent: 100

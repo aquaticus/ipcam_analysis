@@ -1,0 +1,20 @@
+@startuml
+title Ipcam Analysis Workflow
+actor picture #red
+participant Camera as "<size:25><&video></size>\nCamera"
+picture -> Camera
+rnote over Camera : Movement detected
+participant "Ipcam\nAnalysis" as Program #cyan
+Camera -> Program : FTP image
+rnote over Program : Check active hours
+rnote over Program : Scale image
+box Amazon AWS Cloud
+Program -> "Amazon\nRekognition" : Request analysis
+"Amazon\nRekognition" -> Program : List of labels
+rnote over Program : Check labels
+rnote over Program : Draw boxes
+Program -> "Amazon\nSES" : Send email
+endbox
+actor user
+"Amazon\nSES" -> user
+@enduml
